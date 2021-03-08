@@ -13,7 +13,7 @@ WHERE `document_type` = "CI"
 
 SELECT *
 FROM `paganti`
-WHERE `ospite_id` <> "null"
+WHERE `ospite_id`
 ---------------------------------------------------------------
 ●    Selezionare tutte le stanze del primo piano
 
