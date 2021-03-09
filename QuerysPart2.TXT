@@ -86,22 +86,26 @@ GROUP BY EXTRACT(HOUR FROM created_at) DESC
 --------------------------------------------------------------------------------------  13
 ●    Quante prenotazioni ha fatto l’ospite che ha fatto più prenotazioni?
 
-SELECT COUNT(prenotazione_id) AS numero , ospite_id
-FROM prenotazioni_has_ospiti 
-JOIN prenotazioni 
-ON prenotazioni_has_ospiti.prenotazione_id = prenotazioni.id 
-GROUP BY ospite_id
---------------------------------------------------------------------------------------  14
-Join
-●    Come si chiamano gli ospiti che hanno fatto più di due prenotazioni?
-
 SELECT COUNT(prenotazione_id) AS numero , ospiti.name
 FROM prenotazioni_has_ospiti 
 JOIN prenotazioni 
 ON prenotazioni_has_ospiti.prenotazione_id = prenotazioni.id
 JOIN ospiti 
-ON prenotazioni_has_ospiti.ospite_id = ospiti.id 
+ON prenotazioni_has_ospiti.ospite_id = ospiti.id  
 GROUP BY ospite_id
+ORDER BY numero DESC LIMIT 1
+--------------------------------------------------------------------------------------  14
+Join
+●    Come si chiamano gli ospiti che hanno fatto più di due prenotazioni?
+
+SELECT COUNT(prenotazione_id) AS numero_prenotazioni , ospiti.name
+FROM prenotazioni_has_ospiti 
+JOIN prenotazioni 
+ON prenotazioni_has_ospiti.prenotazione_id = prenotazioni.id
+JOIN ospiti 
+ON prenotazioni_has_ospiti.ospite_id = ospiti.id  
+GROUP BY ospite_id
+HAVING(numero_prenotazioni) >= 2
 --------------------------------------------------------------------------------------  15
 ●    Stampare tutti gli ospiti per ogni prenotazione
 
