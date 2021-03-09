@@ -13,7 +13,7 @@ WHERE `document_type` = "CI"
 
 SELECT *
 FROM `paganti`
-WHERE `ospite_id`
+WHERE `ospite_id` IS NOT NULL
 ---------------------------------------------------------------
 ●    Selezionare tutte le stanze del primo piano
 
@@ -25,13 +25,13 @@ WHERE `floor` = "1"
 
 SELECT *
 FROM `ospiti`
-WHERE name LIKE 'a%'
+WHERE name LIKE 'e%'
 -------------------------------------------------------------
 ●    Selezionare tutti gli ospiti che abbiano meno di 30 anni
 
-SELECT *
+SELECT * , TIMESTAMPDIFF(YEAR,date_of_birdth,CURRENT_TIMESTAMP) AS age
 FROM `ospiti`
-WHERE `date_of_birth` >= "1991-01-01"
+WHERE TIMESTAMPDIFF(YEAR,date_of_birdth,CURRENT_TIMESTAMP) <= 30
 -------------------------------------------------------------
 ●    Seleziona tutte le prenotazioni precedenti a maggio 2018
 
@@ -39,3 +39,19 @@ SELECT *
 FROM `prenotazioni`
 WHERE `created_at` < "2018-05-01"
   AND `updated_at` < "2018-05-01"
+--------------------------------------------------------------
+●    Selezionare i paganti e i relativi dati ospite
+
+SELECT *
+FROM paganti
+LEFT JOIN ospiti
+ON paganti.ospite_id = ospiti.id
+---------------------------------------------------------------
+●    Selezionare tutti i pagamenti con i dati relativi alla prenotazione
+
+SELECT *
+FROM pagamenti 
+JOIN prenotazioni 
+ON pagamenti.prenotazione_id = prenotazioni.id
+JOIN prenotazioni_has_ospiti
+ON  prenotazioni.id = prenotazioni_has_ospiti.prenotazione_id
